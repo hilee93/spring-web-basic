@@ -4,7 +4,6 @@ import com.codeit.springwebbasic.book.dto.request.BookCreateRequestDto;
 import com.codeit.springwebbasic.book.entity.Book;
 import com.codeit.springwebbasic.book.entity.BookStatus;
 import com.codeit.springwebbasic.book.repository.BookRepository;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,5 +33,11 @@ public class BookService {
                 .build();
 
         return bookRepository.save(book);
+    }
+
+    public Book getBook(Long id) {
+        return bookRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("도서를 찾을 수 없습니다."));
+
     }
 }
