@@ -1,6 +1,7 @@
 package com.codeit.springwebbasic.book.repository;
 
 import com.codeit.springwebbasic.book.entity.Book;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
+@Repository
 public class BookRepository {
     // 웹 어플리케이션은 동시에 여러 오청이 한꺼번에 들어올 수 있기 때문에
     // 멀티 스레드에서도 안전하게 사용할 수 있는 Hashmap을 사용.
@@ -38,6 +40,13 @@ public class BookRepository {
         return Optional.ofNullable(store.get(id));
     }
 
+    // ISBN으로 Book 조회
+    public Optional<Book> findByIsbn(String isbn) {
+        return store.values()
+                .stream()
+                .filter(book -> book.getIsbn().equals(isbn))
+                .findFirst();
+    }
     public List<Book> findByTitleContaining(String title) {
         return store.values()
                 .stream()
