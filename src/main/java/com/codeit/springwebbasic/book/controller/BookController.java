@@ -1,10 +1,14 @@
 package com.codeit.springwebbasic.book.controller;
 
 import com.codeit.springwebbasic.book.dto.request.BookCreateRequestDto;
+import com.codeit.springwebbasic.book.dto.response.BookResponseDto;
+import com.codeit.springwebbasic.book.entity.Book;
 import com.codeit.springwebbasic.book.service.BookService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -21,7 +25,9 @@ public class BookController {
             "publishedDate": date
         }
      */
-    public void createBook(@Valid @RequestBody BookCreateRequestDto requestDto) {
-        bookService.createBook(requestDto);
+    @RequestMapping(value = "/api/books", method = RequestMethod.POST)
+    public BookResponseDto createBook(@Valid @RequestBody BookCreateRequestDto requestDto) {
+        Book book = bookService.createBook(requestDto);
+        return BookResponseDto.from(book);
     }
 }
