@@ -24,7 +24,6 @@ public class MemberService {
         }
 
         Member member = Member.builder()
-                .id(request.getId())
                 .name(request.getName())
                 .email(request.getEmail())
                 .phone(request.getPhone())
