@@ -16,13 +16,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class MemberCreateRequestDto {
     @NotBlank(message = "이름 입력은 필수 입니다.")
-    @Email(message = "올바른 이메일 형식이 아닙니다.")
     private String name;
 
     @NotBlank(message = "email 입력은 필수 입니다.")
+    @Email(message = "올바른 이메일 형식이 아닙니다.")
     private String email;
 
     @NotBlank(message = "전화번호 입력은 필수 입니다.")
-    @Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$\n", message = "전화번호 형식이 알맞지 않습니다.")
+    @Pattern(regexp = "^\\d{3}-\\d{3,4}-\\d{4}$", message = "전화번호 형식이 알맞지 않습니다.")
     private String phone;
 }
