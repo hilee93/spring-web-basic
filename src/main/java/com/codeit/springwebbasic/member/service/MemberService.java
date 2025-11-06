@@ -19,14 +19,14 @@ public class MemberService {
         // 이메일 중복 체크
 //        Optional<Member> byEmail = memberRepository.findByEmail(request.getEmail());
 //        if (byEmail.isPresent()) {
-        if(memberRepository.existsByEmail(request.getEmail())) {
+        if(memberRepository.existsByEmail(request.email())) {
             throw new IllegalArgumentException("Email이 이미 존재합니다.");
         }
 
         Member member = Member.builder()
-                .name(request.getName())
-                .email(request.getEmail())
-                .phone(request.getPhone())
+                .name(request.name())
+                .email(request.email())
+                .phone(request.phone())
                 .grade(MemberGrade.BRONZE)
                 .joinedAt(LocalDateTime.now())
                 .build();

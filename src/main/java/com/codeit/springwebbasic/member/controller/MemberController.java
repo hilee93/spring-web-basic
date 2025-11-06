@@ -1,5 +1,6 @@
 package com.codeit.springwebbasic.member.controller;
 
+import com.codeit.springwebbasic.common.dto.ApiResponse;
 import com.codeit.springwebbasic.member.dto.request.MemberCreateRequestDto;
 import com.codeit.springwebbasic.member.dto.response.MemberResponseDto;
 import com.codeit.springwebbasic.member.entity.Member;
@@ -26,9 +27,11 @@ public class MemberController {
     // 응답: id, name, email, phone, grade, joinedAt
     // 상태 코드: 201 CREATED
     @PostMapping
-    public ResponseEntity<MemberResponseDto> createMember(@Valid @RequestBody MemberCreateRequestDto request) {
+    public ResponseEntity<ApiResponse<MemberResponseDto>> createMember(@Valid @RequestBody MemberCreateRequestDto request) {
         Member member = memberService.createMember(request);
-        return new ResponseEntity<>(MemberResponseDto.from(member), HttpStatus.CREATED);
+        MemberResponseDto responseDto = MemberResponseDto.from(member);
+        ApiResponse<MemberResponseDto> response = ApiResponse.success(responseDto);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     // 회원 조회 (단일)
