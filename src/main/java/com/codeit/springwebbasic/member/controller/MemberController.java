@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping("/api/members")
 @RequiredArgsConstructor
 @Slf4j // log 라는 이름의 Logger 객체를 바로 생성.
-public class MemberController {
+public class MemberController implements MemberControllerDocs{
     private final MemberService memberService;
 //    private final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
