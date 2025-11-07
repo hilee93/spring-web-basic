@@ -1,10 +1,12 @@
 package com.codeit.springwebbasic.member.service;
 
 import com.codeit.springwebbasic.member.dto.request.MemberCreateRequestDto;
+import com.codeit.springwebbasic.member.dto.response.MemberResponseDto;
 import com.codeit.springwebbasic.member.entity.Member;
 import com.codeit.springwebbasic.member.entity.MemberGrade;
 import com.codeit.springwebbasic.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,10 +14,11 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    public Member createMember(MemberCreateRequestDto request) {
+    public MemberResponseDto createMember(MemberCreateRequestDto request) {
         // 이메일 중복 체크
 //        Optional<Member> byEmail = memberRepository.findByEmail(request.getEmail());
 //        if (byEmail.isPresent()) {
@@ -31,19 +34,35 @@ public class MemberService {
                 .joinedAt(LocalDateTime.now())
                 .build();
 
-        return memberRepository.save(member);
+        Member saved = memberRepository.save(member);
+        return MemberResponseDto.from(member);
     }
 
-    public Member getMember(Long id) {
-        return memberRepository.findById(id)
+    public MemberResponseDto getMember(Long id) {
+        Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다."));
+        log.info("findMember: {}", member);
+        return MemberResponseDto.from(member);
     }
 
-    public List<Member> getMembers(String name) {
-        return memberRepository.findAll();
+    public List<MemberResponseDto> getAllMembers() {
+
+        List<Member> all = memberRepository.findAll();
+
+        return getMemberResponseDtos(all);
     }
 
-    public List<Member> searchMembers(String name) {
-        return memberRepository.findByNameContaining(name);
+
+    public List<MemberResponseDto> searchMembers(String name) {
+
+        List<Member> all = memberRepository.findByNameContaining(name);
+
+        return getMemberResponseDtos(all);
+    }
+
+    private List<MemberResponseDto> getMemberResponseDtos(List<Member> all) {
+        return all.stream()
+                .map(member -> MemberResponseDto.from(member))
+                .toList();
     }
 }

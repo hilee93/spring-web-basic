@@ -5,3 +5,14 @@ spring:
 
 server:
   port: 8181
+
+logging:
+  level:
+    com:
+      codeit:
+        springwebbasic:
+          common:
+            log:
+              LogExample: trace
+  file:
+    name: /Users/hyeong-il/Desktop/Codeit/7-develop/logs/app.log
