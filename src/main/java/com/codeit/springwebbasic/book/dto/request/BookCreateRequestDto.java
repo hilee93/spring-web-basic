@@ -1,5 +1,7 @@
 package com.codeit.springwebbasic.book.dto.request;
 
+import com.codeit.springwebbasic.book.valid.NoBannedWord;
+import com.codeit.springwebbasic.book.valid.ValidEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
@@ -24,6 +26,7 @@ public class BookCreateRequestDto {
         @NotBlank = Null, "", " " 전부 허용하지 않습니다.
      */
     @NotBlank(message = "제목은 필수입니다.")
+    @NoBannedWord(message = "제목에 비속어를 포함할 수 없습니다.")
     private String title;
 
     @NotBlank(message = "저자는 필수입니다.")
@@ -40,4 +43,11 @@ public class BookCreateRequestDto {
 
     @PastOrPresent(message = "출판일은 과거 또는 현재여야 합니다.")
     private LocalDate publishedDate;
+
+    // 검증 값은 Enum이지만, 필드 타입은 String으로 선언.
+    @ValidEnum(
+            enumClass = BookType.class,
+            ignoreCase = true,
+            message = "유효하지 않은 책 종류입니다. (IT, SCIENTIFIC, LITERATURE, NOVEL 중 하나여야 합니다.")
+    private String type;
 }
